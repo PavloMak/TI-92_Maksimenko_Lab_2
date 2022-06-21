@@ -169,29 +169,29 @@ def longRunningTask(x):
     return x ** 2
 
 
-executer_3 = CustomExecutor(max_workers=1)
+executer_1 = CustomExecutor(max_workers=1)
 print("Example with 1 workers")
+futures = executer_1.map(longRunningTask, [1, 2, 3, 4])
+for f in futures:
+    print(f.result())
+    print("Current Time =", datetime.now().strftime("%H:%M:%S"))
+executer_1.shutdown()
+
+print("---------------------------------")
+executer_2 = CustomExecutor(max_workers = 2)
+future_obj = executer_2.execute(longRunningTask, 2)
+print("Example with 2 workers")
+futures = executer_2.map(longRunningTask, [1,2,3,4])
+for f in futures:
+    print(f.result())
+    print("Current Time =", datetime.now().strftime("%H:%M:%S"))
+executer_2.shutdown()
+
+print("---------------------------------")
+executer_3 = CustomExecutor(max_workers=4)
+print("Example with 4 workers")
 futures = executer_3.map(longRunningTask, [1, 2, 3, 4])
 for f in futures:
     print(f.result())
     print("Current Time =", datetime.now().strftime("%H:%M:%S"))
 executer_3.shutdown()
-
-print("---------------------------------")
-executer = CustomExecutor(max_workers = 2)
-future_obj = executer.execute(longRunningTask, 2)
-print("Example with 2 workers")
-futures = executer.map(longRunningTask, [1,2,3,4])
-for f in futures:
-    print(f.result())
-    print("Current Time =", datetime.now().strftime("%H:%M:%S"))
-executer.shutdown()
-
-print("---------------------------------")
-executer_2 = CustomExecutor(max_workers=4)
-print("Example with 4 workers")
-futures = executer_2.map(longRunningTask, [1, 2, 3, 4])
-for f in futures:
-    print(f.result())
-    print("Current Time =", datetime.now().strftime("%H:%M:%S"))
-executer_2.shutdown()
